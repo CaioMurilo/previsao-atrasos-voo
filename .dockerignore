@@ -1,0 +1,9 @@
+# Ignora arquivos locais para não poluir o container do Linux
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+.git/
+.gitignore
+data/
