@@ -1,0 +1,15 @@
+# Ambientes Virtuais
+venv/
+env/
+.env
+
+# Arquivos de Dados (NUNCA suba bases de dados para o GitHub)
+data/raw/
+data/processed/
+*.csv
+*.parquet
+
+# Python cache
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
