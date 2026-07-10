@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 import xgboost as xgb
+from mangum import Mangum
 
 # 1. Inicializando a aplicação web
 app = FastAPI(
@@ -8,11 +9,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# 2. Carregando o modelo treinado globalmente (para não carregar a cada requisição)
+# 2. Carregando o modelo treinado globalmente
 model = xgb.XGBClassifier()
 model.load_model("models/xgboost_atrasos.json")
 
-# 3. Criando o Endpoint de "Health Check" (Teste de Saúde da API)
+# 3. Criando o Endpoint de "Health Check"
 @app.get("/")
 def health_check():
     """
@@ -28,11 +29,14 @@ def health_check():
 @app.post("/predict")
 def prever_atraso():
     """
-    Rota que receberá os dados do voo no futuro. 
-    Por enquanto, retorna uma estrutura validando a conexão.
+    Rota que receberá os dados do voo no futuro.
     """
     return {
         "status_voo": "No Horario",
         "probabilidade_atraso": 0.15,
         "alerta": "Condicoes climaticas favoraveis."
     }
+
+# 5. O Adaptador para a AWS Lambda
+# Esta é a variável que o servidor da AWS vai procurar para injetar os dados
+handler = Mangum(app)
